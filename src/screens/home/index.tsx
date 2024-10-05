@@ -2,10 +2,8 @@ import { ColorSwatch, Group } from "@mantine/core";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import Draggable from "react-draggable";
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 import { SWATCHES } from "../../../constants";
-import { send } from "process";
-// import {LazyBrush} from 'lazy-brush';
 
 interface GeneratedResult {
   expression: string;
@@ -93,7 +91,7 @@ export default function Home() {
   }, []);
 
   const renderLatexToCanvas = (expression: string, answer: string) => {
-    const spacedExpression = expression.replace(/ /g, '\\ '); // This adds spaces explicitly
+    const spacedExpression = expression.replace(/ /g, "\\ "); // This adds spaces explicitly
     const latex = `\\(\\LARGE{${spacedExpression} = ${answer}}\\)`;
     setLatexExpression([...latexExpression, latex]);
 
@@ -219,7 +217,6 @@ export default function Home() {
           >
             Reset
           </Button>
-          
 
           <Group className="flex flex-wrap justify-center sm:justify-start">
             {SWATCHES.map((swatch) => (
@@ -252,7 +249,10 @@ export default function Home() {
           <Draggable
             key={index}
             defaultPosition={latexPosition}
-            onStop={(e, data) => setLatexPosition({ x: data.x, y: data.y })}
+            onStop={(e: DraggableEvent, data: DraggableData) => {
+              console.log(e);
+              setLatexPosition({ x: data.x, y: data.y });
+            }}
           >
             <div className="absolute p-2 text-white rounded shadow-md">
               <div className="latex-content">{latex}</div>
