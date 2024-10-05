@@ -156,6 +156,7 @@ export default function Home() {
           image: canvas.toDataURL("image/png"),
           dict_of_vars: dictOfVars,
         },
+        cors: true,
       });
 
       const resp = await response.data;
